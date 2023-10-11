@@ -41,7 +41,7 @@ window.onpopstate = function(e){
         var html = localStorage.getItem(e.state.Url);
         var parser = new DOMParser();
         var domHtml = parser.parseFromString(html, "text/html");
-        document.body.replaceWith(domHtml);
+        document.body.replaceWith(domHtml.body);
         document.title = e.state.Title;
         window.scrollTo({top: 0, behavior: "smooth"});
         loadLinkClick();
