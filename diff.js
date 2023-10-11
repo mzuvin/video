@@ -19,6 +19,25 @@ function loadLinkClick(){
             })
        
     }
+    
+} 
+
+
+function processAjaxData(response, urlPath){
+    var dd = new diffDOM.DiffDOM();
+    var html1=document.documentElement;
+    var parser = new DOMParser();
+    var html2 = parser.parseFromString(response, "text/html");
+    // Sadece değişen kısımları bulmak için diffDOM kullan
+    var diff = dd.diff(html1, html2.documentElement);
+    // Değişiklikleri uygula
+    dd.apply(html1, diff)
+    document.title = html2.title;
+    document.documentElement.replaceWith(html1);
+    window[urlPath]=html1.outerHTML;
+    var data={"Title":html2.title,"Url":urlPath};
+    console.log("data");
+    console.log(data);
     // Yeni eklenen linkleri izlemek için bir MutationObserver oluştur
     var observer = new MutationObserver(function(mutations) {
         mutations.forEach(function(mutation) {
@@ -46,26 +65,9 @@ function loadLinkClick(){
     });
     // Tüm document'i izlemek için observer'ı başlat
     observer.observe(document, { childList: true, subtree: true });
-} 
-
-
-function processAjaxData(response, urlPath){
-    var dd = new diffDOM.DiffDOM();
-    var html1=document.documentElement;
-    var parser = new DOMParser();
-    var html2 = parser.parseFromString(response, "text/html");
-    // Sadece değişen kısımları bulmak için diffDOM kullan
-    var diff = dd.diff(html1, html2.documentElement);
-    // Değişiklikleri uygula
-    dd.apply(html1, diff)
-    document.title = html2.title;
-    document.documentElement.replaceWith(html1);
-    window[urlPath]=html1.outerHTML;
-    var data={"Title":html2.title,"Url":urlPath};
-    console.log("data");
-    console.log(data);
     window.history.pushState(data,"", urlPath);
     window.scrollTo({top: 0, behavior: "smooth"});
+    
 }
 
 window.onpopstate = function(e){
