@@ -4,7 +4,8 @@ function loadLinkClick(){
     const headers = new Headers();
     console.log(links.length+" adet link bulundu.");
     for (var i=0;i<links.length;i++){
-        links[i].addEventListener("click",function(e){
+        if(links[i].href.startsWith(location.href) || links[i].href.startsWith("/")){
+            links[i].addEventListener("click",function(e){
             let href=e.currentTarget.href;
             console.log("href",href)
             NProgress.start();
@@ -13,7 +14,9 @@ function loadLinkClick(){
                 NProgress.done();
             });
             e.preventDefault();
-        })
+            })
+        }
+       
     }
 } 
 
