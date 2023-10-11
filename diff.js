@@ -38,7 +38,30 @@ function processAjaxData(response, urlPath){
     var data={"Title":html2.title,"Url":urlPath};
     console.log("data");
     console.log(data);
-    // Yeni eklenen linkleri izlemek için bir MutationObserver oluştur
+   
+    window.history.pushState(data,"", urlPath);
+    window.scrollTo({top: 0, behavior: "smooth"});
+    
+}
+
+window.onpopstate = function(e){
+    if(e.state){
+        var html = window[e.state.Url];
+        var parser = new DOMParser();
+        var domHtml = parser.parseFromString(html, "text/html");
+        document.body.replaceWith(domHtml.body);
+        document.title = e.state.Title;
+        window.scrollTo({top: 0, behavior: "smooth"});
+        loadLinkClick();
+    }
+};
+
+
+addEventListener("load",function(){
+    loadLinkClick();
+    window[location.href]=document.documentElement.outerHTML;
+
+     // Yeni eklenen linkleri izlemek için bir MutationObserver oluştur
     var observer = new MutationObserver(function(mutations) {
         mutations.forEach(function(mutation) {
             // Eğer yeni bir node eklendiyse
@@ -65,25 +88,4 @@ function processAjaxData(response, urlPath){
     });
     // Tüm document'i izlemek için observer'ı başlat
     observer.observe(document, { childList: true, subtree: true });
-    window.history.pushState(data,"", urlPath);
-    window.scrollTo({top: 0, behavior: "smooth"});
-    
-}
-
-window.onpopstate = function(e){
-    if(e.state){
-        var html = window[e.state.Url];
-        var parser = new DOMParser();
-        var domHtml = parser.parseFromString(html, "text/html");
-        document.body.replaceWith(domHtml.body);
-        document.title = e.state.Title;
-        window.scrollTo({top: 0, behavior: "smooth"});
-        loadLinkClick();
-    }
-};
-
-
-addEventListener("load",function(){
-    loadLinkClick();
-    window[location.href]=document.documentElement.outerHTML;
 });
