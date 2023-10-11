@@ -7,7 +7,7 @@ function loadLinkClick(){
        
             links[i].addEventListener("click",function(e){
             let href=e.currentTarget.href;
-                 if(href.startsWith(location.href) || href.startsWith("/")){
+                 if(href.startsWith(location.origin) || href.startsWith("/")){
                     console.log("href",href)
                     NProgress.start();
                     fetch(href,{method:"GET",headers}).then(res=>res.text()).then(result=>{
