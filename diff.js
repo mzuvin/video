@@ -14,7 +14,7 @@ function processAjaxData(response, urlPath){
     console.log(data);
     window.history.pushState(data,"", urlPath);
     loadLinkClick();
-    
+    window.scrollTo({top: 0, behavior: "smooth"});
 }
 
 window.onpopstate = function(e){
@@ -22,6 +22,7 @@ window.onpopstate = function(e){
         var html = localStorage.getItem(e.state.Url);
         document.documentElement.replaceWith(html);
         document.title = e.state.Title;
+        window.scrollTo({top: 0, behavior: "smooth"});
         loadLinkClick();
     }
 };
