@@ -47,4 +47,5 @@ const loadLinkClick =()=>{
 
 addEventListener("load",function(){
     loadLinkClick();
+    localStorage.setItem(location.href, document.documentElement.outerHTML);
 });
