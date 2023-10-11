@@ -8,7 +8,8 @@ function processAjaxData(response, urlPath){
     dd.apply(html1, diff)
     document.title = html2.title;
     document.documentElement.replaceWith(html1);
-    const data={"Html":html1,"Title":html2.title};
+    localStorage.setItem(urlPath, html1);
+    var data={"Title":html2.title,"Url":urlPath};
     console.log("data");
     console.log(data);
     window.history.pushState(data,"", urlPath);
@@ -18,7 +19,8 @@ function processAjaxData(response, urlPath){
 
 window.onpopstate = function(e){
     if(e.state){
-        document.documentElement.replaceWith(e.state.Html);
+        var html = localStorage.getItem(e.state.Url);
+        document.documentElement.replaceWith(html);
         document.title = e.state.Title;
         loadLinkClick();
     }
