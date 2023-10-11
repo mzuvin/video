@@ -35,10 +35,10 @@ const loadLinkClick =()=>{
         links[i].addEventListener("click",function(e){
             let href=e.currentTarget.href;
             console.log("href",href)
-            //NProgress.start();
+            NProgress.start();
             fetch(href,{method:"GET",headers}).then(res=>res.text()).then(result=>{
                 processAjaxData(result,href);
-                //NProgress.done();
+                NProgress.done();
             });
             e.preventDefault();
         })
