@@ -8,7 +8,7 @@ function processAjaxData(response, urlPath){
     dd.apply(html1, diff)
     document.title = html2.title;
     document.documentElement.replaceWith(html1);
-    localStorage.setItem(urlPath, html1.documentElement.outerHTML);
+    localStorage.setItem(urlPath, html1.outerHTML);
     var data={"Title":html2.title,"Url":urlPath};
     console.log("data");
     console.log(data);
