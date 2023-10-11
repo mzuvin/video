@@ -4,18 +4,20 @@ function loadLinkClick(){
     const headers = new Headers();
     console.log(links.length+" adet link bulundu.");
     for (var i=0;i<links.length;i++){
-        if(links[i].href.startsWith(location.href) || links[i].href.startsWith("/")){
+       
             links[i].addEventListener("click",function(e){
             let href=e.currentTarget.href;
-            console.log("href",href)
-            NProgress.start();
-            fetch(href,{method:"GET",headers}).then(res=>res.text()).then(result=>{
-                processAjaxData(result,href);
-                NProgress.done();
-            });
-            e.preventDefault();
+                 if(href.startsWith(location.href) || href.startsWith("/")){
+                    console.log("href",href)
+                    NProgress.start();
+                    fetch(href,{method:"GET",headers}).then(res=>res.text()).then(result=>{
+                        processAjaxData(result,href);
+                        NProgress.done();
+                    });
+                    e.preventDefault();
+                }
+                     
             })
-        }
        
     }
 } 
